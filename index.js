@@ -1,3 +1,4 @@
+require('dotenv').config();
 const Koa = require('koa');
 const logger = require('koa-logger');
 const Router = require('koa-router');
@@ -10,7 +11,7 @@ const router = new Router();
 render(app, {
   root: path.join(__dirname, 'view'),
   layout: 'template',
-  viewExt: 'html',
+  viewExt: 'ejs',
   cache: false,
   debug: true
 });
@@ -39,4 +40,7 @@ app.use(logger());
 app.use(router.routes());
 app.use(router.allowedMethods());
 
-app.listen(3000);
+const PORT = process.env.PORT || 4000;
+app.listen(PORT, () => {
+  console.log(`Server listening on PORT ${PORT}`);
+});
