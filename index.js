@@ -5,6 +5,8 @@ const Router = require('koa-router');
 const path = require('path');
 const render = require('koa-ejs');
 
+const authenticate = require('./middlewares/authenticate');
+
 const app = new Koa();
 const router = new Router();
 
@@ -24,7 +26,7 @@ router.get('/users', async (ctx, next) => {
   await ctx.render('users', { title: 'Users' });
 });
 
-router.get('/protected', async (ctx, next) => {
+router.get('/protected', authenticate, async (ctx, next) => {
   await ctx.render('protected', { title: 'Protected' });
 });
 
