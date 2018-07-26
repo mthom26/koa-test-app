@@ -20,10 +20,13 @@ router.get('/', async (ctx) => {
   await ctx.render('index', { title: 'Home' });
 });
 
-router.get('/about', async (ctx, next) => {
-  await ctx.render('about', { title: 'About' });
+router.get('/users', async (ctx, next) => {
+  await ctx.render('users', { title: 'Users' });
 });
 
+router.get('/protected', async (ctx, next) => {
+  await ctx.render('protected', { title: 'Protected' });
+});
 
 // Error handler
 app.use(async (ctx, next) => {
