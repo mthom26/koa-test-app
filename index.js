@@ -4,6 +4,7 @@ const logger = require('koa-logger');
 const Router = require('koa-router');
 const path = require('path');
 const render = require('koa-ejs');
+const koaBody = require('koa-body');
 
 const authenticate = require('./middlewares/authenticate');
 
@@ -29,6 +30,10 @@ router.get('/users', async (ctx, next) => {
 router.get('/protected', authenticate, async (ctx, next) => {
   await ctx.render('protected', { title: 'Protected' });
 });
+
+router.post('/login', koaBody(), authenticate, async (ctx, next) => {
+  await ctx.render('protected', { title: 'Protected' });
+})
 
 // Error handler
 app.use(async (ctx, next) => {
