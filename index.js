@@ -1,15 +1,13 @@
 require('dotenv').config();
 const Koa = require('koa');
 const logger = require('koa-logger');
-const Router = require('koa-router');
 const path = require('path');
 const render = require('koa-ejs');
-const koaBody = require('koa-body');
 
-const authenticate = require('./middlewares/authenticate');
+const indexRoutes = require('./routes/index');
+const userRoutes = require('./routes/users');
 
 const app = new Koa();
-const router = new Router();
 
 render(app, {
   root: path.join(__dirname, 'view'),
@@ -18,22 +16,6 @@ render(app, {
   cache: false,
   debug: true
 });
-
-router.get('/', async (ctx) => {
-  await ctx.render('index', { title: 'Home' });
-});
-
-router.get('/users', async (ctx, next) => {
-  await ctx.render('users', { title: 'Users' });
-});
-
-router.get('/protected', authenticate, async (ctx, next) => {
-  await ctx.render('protected', { title: 'Protected' });
-});
-
-router.post('/login', koaBody(), authenticate, async (ctx, next) => {
-  await ctx.render('protected', { title: 'Protected' });
-})
 
 // Error handler
 app.use(async (ctx, next) => {
@@ -47,8 +29,10 @@ app.use(async (ctx, next) => {
 });
 
 app.use(logger());
-app.use(router.routes());
-app.use(router.allowedMethods());
+app.use(indexRoutes.routes());
+app.use(userRoutes.routes());
+app.use(indexRoutes.allowedMethods());
+app.use(userRoutes.allowedMethods());
 
 const PORT = process.env.PORT || 4000;
 app.listen(PORT, () => {
