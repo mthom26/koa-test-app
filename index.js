@@ -1,14 +1,16 @@
 require('dotenv').config();
 const Koa = require('koa');
 const logger = require('koa-logger');
-const path = require('path');
-const render = require('koa-ejs');
 
-const indexRoutes = require('./routes/index');
+//const path = require('path');
+//const render = require('koa-ejs');
+
+const authRoutes = require('./routes/auth');
 const userRoutes = require('./routes/users');
 
 const app = new Koa();
 
+/*
 render(app, {
   root: path.join(__dirname, 'view'),
   layout: 'template',
@@ -16,6 +18,7 @@ render(app, {
   cache: false,
   debug: true
 });
+*/
 
 // Error handler
 app.use(async (ctx, next) => {
@@ -29,9 +32,9 @@ app.use(async (ctx, next) => {
 });
 
 app.use(logger());
-app.use(indexRoutes.routes());
+app.use(authRoutes.routes());
 app.use(userRoutes.routes());
-app.use(indexRoutes.allowedMethods());
+app.use(authRoutes.allowedMethods());
 app.use(userRoutes.allowedMethods());
 
 const PORT = process.env.PORT || 4000;

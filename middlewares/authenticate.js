@@ -1,6 +1,6 @@
 const jwt = require('jsonwebtoken');
 
-module.exports = (ctx) => {
+module.exports = (ctx, next) => {
   if(ctx.request.body.password === 'password') {
     ctx.status = 200;
     ctx.body = {
@@ -12,5 +12,5 @@ module.exports = (ctx) => {
       message: 'Authentication failed'
     };
   }
-  return ctx;
+  next();
 };
