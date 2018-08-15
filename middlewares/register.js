@@ -30,9 +30,13 @@ async function register(ctx, next) {
             joined: new Date()
           })
           .then(user => {
-            //console.log(user);
+            const token = jwt.sign({
+              id: user.id,
+            }, process.env.JWT_SECRET_KEY);
+
             ctx.body = {
-              user: user[0]
+              user: user[0],
+              token
             }
           })
       })
@@ -44,7 +48,7 @@ async function register(ctx, next) {
       ctx.body = {
         message: 'Could not create User'
       }
-    })
+    });
   }
   next();
 }
