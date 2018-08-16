@@ -15,7 +15,6 @@ router.post('/register', koaBody(), register, async (ctx, next) => {
 });
 
 router.post('/login', koaBody(), authenticate, async (ctx, next) => {
-  console.log(ctx.body);
   ctx.body = { ...ctx.body, message: 'Login' };
   console.log(ctx.body);
 });

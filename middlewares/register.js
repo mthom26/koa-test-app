@@ -1,8 +1,6 @@
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
 
-const db = require('../database');
-
 async function register(ctx, next) {
   const { email, password, name } = ctx.request.body;
   if(!email || !name || !password) {
@@ -14,7 +12,7 @@ async function register(ctx, next) {
   } else {
     // Hash password
     const hash = await bcrypt.hash(password, 10);
-    await db.transaction(trx => {
+    await ctx.db.transaction(trx => {
       trx.insert({
         hash: hash,
         email: email

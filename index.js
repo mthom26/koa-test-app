@@ -7,6 +7,7 @@ const logger = require('koa-logger');
 
 const authRoutes = require('./routes/auth');
 const userRoutes = require('./routes/users');
+const db = require ('./database');
 
 const app = new Koa();
 
@@ -23,6 +24,18 @@ render(app, {
 // Error handler
 app.use(async (ctx, next) => {
   try {
+    await next();
+  } catch(err) {
+    ctx.status = 400;
+    ctx.body = `There was an error: ${err.message}`;
+    console.log('Error: ', err.message);
+  }
+});
+
+// Add database to ctx
+app.use(async (ctx, next) => {
+  try {
+    ctx.db = db;
     await next();
   } catch(err) {
     ctx.status = 400;
