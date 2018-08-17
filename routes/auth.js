@@ -1,7 +1,7 @@
 const Router = require('koa-router');
 const koaBody = require('koa-body');
 
-const authenticate = require('../middlewares/authenticate');
+const login = require('../middlewares/login');
 const register = require('../middlewares/register');
 
 const router = new Router();
@@ -14,9 +14,9 @@ router.post('/register', koaBody(), register, async (ctx, next) => {
   console.log(ctx.body);
 });
 
-router.post('/login', koaBody(), authenticate, async (ctx, next) => {
-  ctx.body = { ...ctx.body, message: 'Login' };
-  console.log(ctx.body);
+router.post('/login', koaBody(), login, async (ctx, next) => {
+  //ctx.body = { ...ctx.body };
+  //console.log(ctx.body);
 });
 
 module.exports = router;
